@@ -36,10 +36,10 @@ const useScrollReveal = () => {
 };
 
 const services = [
-  { num:'01', icon:'🔍', color:'#fdf2ff', stroke:'#c026d3', name:'Search Engine Optimisation',      slug:'seo',               desc:'Rank higher, get found by the right people. On-page, technical SEO, link building & local SEO.', from:'₹38,500', dropdown: null },
-  { num:'02', icon:'📱', color:'#ecfeff', stroke:'#0891b2', name:'Social Media Marketing',          slug:'social-media',      desc:'Build a brand people follow and trust. Post designs, Reels, community management & strategy.', from:'₹48,000', dropdown: null },
-  { num:'03', icon:'💻', color:'#eff6ff', stroke:'#1d4ed8', name:'Website Designing & Development', slug:'website-designing',  desc:'Beautiful, fast websites. Choose WordPress for easy management or a custom Full Stack build for unlimited power.', from:'₹40,000', dropdown: [{ label:'WordPress', value:'wordpress' }, { label:'Full Stack Development', value:'fullstack' }] },
-  { num:'04', icon:'📺', color:'#f0edff', stroke:'#7c3aed', name:'Paid Advertising (PPC)',          slug:'paid-advertising',   desc:'Google Ads & Meta Ads engineered for maximum ROI. Immediate results, every rupee tracked.', from:'₹37,000', dropdown: null },
+  { num:'01', icon:'🔍', color:'#fdf2ff', stroke:'#c026d3', name:'Search Engine Optimisation',      slug:'seo',               desc:'Rank higher, get found by the right people. On-page, technical SEO, link building & local SEO.', from:'₹38,500', dropdown: null, included:['Keyword research & strategy','Technical site audit','Monthly ranking reports'] },
+  { num:'02', icon:'📱', color:'#ecfeff', stroke:'#0891b2', name:'Social Media Marketing',          slug:'social-media',      desc:'Build a brand people follow and trust. Post designs, Reels, community management & strategy.', from:'₹48,000', dropdown: null, included:['12 posts + 4 Reels / month','Daily community management','Monthly growth report'] },
+  { num:'03', icon:'💻', color:'#eff6ff', stroke:'#1d4ed8', name:'Website Designing & Development', slug:'website-designing',  desc:'Beautiful, fast websites. Choose WordPress for easy management or a custom Full Stack build for unlimited power.', from:'₹40,000', dropdown: [{ label:'WordPress', value:'wordpress' }, { label:'Full Stack Development', value:'fullstack' }], included:['UX/UI design + development','Mobile-first, fast loading','1 month free support'] },
+  { num:'04', icon:'📺', color:'#f0edff', stroke:'#7c3aed', name:'Paid Advertising (PPC)',          slug:'paid-advertising',   desc:'Google Ads & Meta Ads engineered for maximum ROI. Immediate results, every rupee tracked.', from:'₹37,000', dropdown: null, included:['Google + Meta campaign setup','Conversion tracking setup','Weekly performance reports'] },
 ];
 
 const acronym = [
@@ -52,6 +52,7 @@ const acronym = [
 
 function ServiceCard({ s, visible, delay }) {
   const [selected, setSelected] = useState('');
+  const [expanded, setExpanded] = useState(false);
   const navigate = useNavigate();
 
   const handleGetStarted = () => {
@@ -73,6 +74,26 @@ function ServiceCard({ s, visible, delay }) {
       <div style={{ fontSize:'.78rem', color:'var(--muted)', marginBottom:'1rem', fontFamily:'var(--font-mono)' }}>
         Starting from <span style={{ fontWeight:700, color:s.stroke }}>{s.from}<span style={{ fontWeight:400, fontSize:'.7rem' }}>/mo</span></span>
       </div>
+
+      {/* What's included — expandable */}
+      {s.included && (
+        <div style={{ marginBottom:'1rem' }}>
+          <button type="button" onClick={() => setExpanded(v => !v)}
+            style={{ display:'flex', alignItems:'center', gap:'.35rem', background:'none', border:'none', padding:0, fontSize:'.78rem', color:s.stroke, fontFamily:'var(--font-body)', cursor:'pointer' }}>
+            {expanded ? 'Hide details' : "See what's included"}
+            <span style={{ display:'inline-block', transition:'transform .15s', transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)', fontSize:'.7rem' }}>▾</span>
+          </button>
+          {expanded && (
+            <ul style={{ listStyle:'none', margin:'.6rem 0 0', padding:0, display:'flex', flexDirection:'column', gap:'.35rem' }}>
+              {s.included.map((item, idx) => (
+                <li key={idx} style={{ fontSize:'.78rem', color:'var(--muted)', lineHeight:1.5, display:'flex', alignItems:'baseline', gap:'.45rem' }}>
+                  <span style={{ color:s.stroke, fontWeight:700 }}>✓</span>{item}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
 
       {/* Dropdown for website service */}
       {s.dropdown && (
@@ -275,7 +296,7 @@ function HeroSection({ scrollTo }) {
             const x = Math.cos(rad) * item.r;
             const y = Math.sin(rad) * item.r;
             return (
-              <div key={i} style={{ position:'absolute', left:`calc(50% + ${x}px)`, top:`calc(50% + ${y}px)`, transform:'translate(-50%,-50%)', background:item.bg, border:`1px solid ${item.border}`, borderRadius:12, padding:'.5rem .9rem', textAlign:'center', animation:`fadeIn 1s ${1 + i * 0.15}s both`, boxShadow:'0 2px 12px rgba(26,18,8,.07)', minWidth:72 }}>
+              <div key={i} style={{ position:'absolute', left:`calc(50% + ${x}px)`, top:`calc(50% + ${y}px)`, transform:'translate(-50%,-50%)', background:item.bg, border:`1px solid ${item.border}`, borderRadius:12, padding:'.5rem .9rem', textAlign:'center', animation:`fadeIn 1s ${1 + i * 0.15}s both`, boxShadow:'0 2px 12px rgba(26,18,8,.07)', minWidth:72, zIndex:3 }}>
                 <div style={{ fontFamily:'var(--font-display)', fontSize:'1.25rem', fontWeight:700, color:item.color, lineHeight:1 }}>{item.value}</div>
                 <div style={{ fontFamily:'var(--font-mono)', fontSize:'.6rem', letterSpacing:'.08em', textTransform:'uppercase', color:item.color, opacity:.7, marginTop:2 }}>{item.label}</div>
               </div>
@@ -458,8 +479,8 @@ export default function Home() {
             <span style={{ width:24, height:2, background:'linear-gradient(to right,#7c3aed,#1d4ed8)', borderRadius:2, display:'inline-block' }}/>
             Get in touch
           </div>
-          <h2 style={{ fontFamily:'var(--font-display)', fontSize:'clamp(2.6rem,5vw,4.2rem)', fontWeight:400, lineHeight:1.1, letterSpacing:'-.03em', marginBottom:'1.2rem' }}>
-            Ready to <em style={{ fontStyle:'italic', fontWeight:300, background:'linear-gradient(135deg,#7c3aed,#1d4ed8)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>grow?</em>
+          <h2 style={{ fontFamily:'var(--font-display)', fontSize:'clamp(2.6rem,5vw,4.2rem)', fontWeight:400, lineHeight:1.25, letterSpacing:'-.03em', marginBottom:'1.2rem' }}>
+            Ready to <em style={{ fontStyle:'italic', fontWeight:300, background:'linear-gradient(135deg,#7c3aed,#1d4ed8)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text', display:'inline-block', paddingTop:'0.15em', lineHeight:1 }}>grow?</em>
           </h2>
           <p style={{ color:'var(--muted)', fontSize:'1rem', lineHeight:1.75, marginBottom:'2.5rem' }}>Tell us about your brand. We'll get back to you within 24 hours with a plan tailored just for you.</p>
 

@@ -97,6 +97,7 @@ export default function AdminLayout() {
           <p style={{ fontSize:'.65rem', fontFamily:'var(--font-mono)', letterSpacing:'.12em', textTransform:'uppercase', color:'var(--muted)', marginBottom:'.5rem', paddingLeft:'.5rem' }}>Main</p>
           <SideLink to="/admin" end icon="📊" label="Dashboard"/>
           <SideLink to="/admin/leads" icon="👥" label="Leads"/>
+          <SideLink to="/admin/insights" icon="💬" label="Chat insights"/>
           <SideLink to="/admin/posts" icon="✍️" label="Blog Posts"/>
           <div style={{ borderTop:'1px solid var(--border)', margin:'1rem 0' }}/>
           <p style={{ fontSize:'.65rem', fontFamily:'var(--font-mono)', letterSpacing:'.12em', textTransform:'uppercase', color:'var(--muted)', marginBottom:'.5rem', paddingLeft:'.5rem' }}>Tools</p>

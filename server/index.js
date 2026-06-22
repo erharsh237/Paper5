@@ -17,6 +17,7 @@ app.use('/api/auth',    require('./routes/auth'));
 app.use('/api/leads',   require('./routes/leads'));
 app.use('/api/posts',   require('./routes/posts'));
 app.use('/api/contact', require('./routes/contact'));
+app.use('/api/chat',    require('./routes/chat'));
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'Paper5 API running', time: new Date() }));

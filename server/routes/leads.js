@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Lead = require('../models/Lead');
-const { protect } = require('../middleware/auth');
+const { protect, requireAdmin } = require('../middleware/auth');
 
 // All leads routes require auth
 router.use(protect);
@@ -66,7 +66,7 @@ router.patch('/:id', async (req, res) => {
 });
 
 // DELETE /api/leads/:id
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', requireAdmin, async (req, res) => {
   try {
     await Lead.findByIdAndDelete(req.params.id);
     res.json({ success: true });

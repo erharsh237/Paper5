@@ -22,9 +22,13 @@ import AdminLayout    from './pages/admin/AdminLayout';
 import Dashboard      from './pages/admin/Dashboard';
 import Leads          from './pages/admin/Leads';
 import LeadDetail     from './pages/admin/LeadDetail';
+import Insights       from './pages/admin/Insights';
 import Posts          from './pages/admin/Posts';
 import PostEditor     from './pages/admin/PostEditor';
 import ChangePassword from './pages/admin/ChangePassword';
+
+// Chat widget (floating, all pages)
+import ChatWidget from './components/ChatWidget';
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -54,6 +58,7 @@ function AppRoutes() {
         <Route index                    element={<Dashboard />} />
         <Route path="leads"             element={<Leads />} />
         <Route path="leads/:id"         element={<LeadDetail />} />
+        <Route path="insights"          element={<Insights />} />
         <Route path="posts"             element={<Posts />} />
         <Route path="posts/new"         element={<PostEditor />} />
         <Route path="posts/:id"         element={<PostEditor />} />
@@ -69,6 +74,7 @@ export default function App() {
       <BrowserRouter>
         <Toaster position="top-right" toastOptions={{ style: { fontFamily: 'var(--font-body)', fontSize: '0.88rem' } }} />
         <AppRoutes />
+        <ChatWidget />
       </BrowserRouter>
     </AuthProvider>
   );

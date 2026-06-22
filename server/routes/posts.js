@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Post = require('../models/Post');
-const { protect } = require('../middleware/auth');
+const { protect, requireAdmin } = require('../middleware/auth');
 
 // GET /api/posts — public, published only
 router.get('/', async (req, res) => {
@@ -71,7 +71,7 @@ router.put('/:id', protect, async (req, res) => {
 });
 
 // DELETE /api/posts/:id — delete (protected)
-router.delete('/:id', protect, async (req, res) => {
+router.delete('/:id', protect, requireAdmin, async (req, res) => {
   try {
     await Post.findByIdAndDelete(req.params.id);
     res.json({ success: true });
